@@ -1,0 +1,11 @@
+[package]
+name = "crusty_ticker"
+version = "0.0.0"
+edition = "2024"
+description = "Data Structure for Stock and Crypto Ticker"
+license="Beerware"
+keywords = ['stock', 'crypto', 'finance', 'ticker', 'trading']
+categories = ['data-structures']
+readme = 'README.md'
+
+[dependencies]
