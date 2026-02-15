@@ -1,14 +1,8 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+mod ticker;
+pub use ticker::Ticker;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+mod asset_type;
+pub use asset_type::AssetType;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+mod error;
+pub use error::Error;
