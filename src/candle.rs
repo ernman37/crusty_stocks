@@ -27,7 +27,9 @@ impl Candle {
             return Err(Error::InvalidCandle("high must be >= low".to_string()));
         }
         if volume < 0.0 {
-            return Err(Error::InvalidCandle("volume must be non-negative".to_string()));
+            return Err(Error::InvalidCandle(
+                "volume must be non-negative".to_string(),
+            ));
         }
         Ok(Self {
             ticker,
