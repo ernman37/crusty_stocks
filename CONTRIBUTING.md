@@ -14,12 +14,12 @@ Thank you for your interest in contributing to crusty_ticker! This document prov
 1. Fork the repository
 2. Clone your fork:
    ```bash
-   git clone https://github.com/ernman37/crusty_ticker.git
-   cd crusty_ticker
+   git clone https://github.com/ernman37/crusty_stocks.git
+   cd crusty_stocks
    ```
 3. Add the upstream remote:
    ```bash
-   git remote add upstream https://github.com/ernman37/rusty_ticker.git
+   git remote add upstream https://github.com/ernman37/crusty_stocks.git
    ```
 4. Build the project:
    ```bash
