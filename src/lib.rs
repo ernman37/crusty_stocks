@@ -1,8 +1,8 @@
-mod ticker;
-pub use ticker::Ticker;
+mod candle;
+pub use candle::Candle;
 
-mod asset_type;
-pub use asset_type::AssetType;
+mod timeframe;
+pub use timeframe::TimeFrame;
 
 mod error;
 pub use error::Error;

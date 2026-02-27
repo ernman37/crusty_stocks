@@ -1,11 +1,13 @@
 [package]
-name = "crusty_ticker"
+name = "crusty_stocks"
 version = "0.0.0"
 edition = "2024"
-description = "Data Structure for Stock and Crypto Ticker"
+description = "Data Structure for Stock and Crypto Ticker and Candle Data"
 license="Beerware"
-keywords = ['stock', 'crypto', 'finance', 'ticker', 'trading']
+keywords = ['stock', 'crypto', 'finance', 'candle', 'trading']
 categories = ['data-structures']
 readme = 'README.md'
 
 [dependencies]
+
+[dev-dependencies]
