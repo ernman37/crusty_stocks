@@ -3,38 +3,30 @@ use std::fmt;
 #[derive(Debug, Clone, PartialEq)]
 pub enum TimeFrame {
     OneMinute,
-    TwoMinutes,
+    ThreeMinutes,
     FiveMinutes,
     FifteenMinutes,
+    ThirtyMinutes,
     OneHour,
+    FourHours,
     OneDay,
-    TwoDays,
-    FiveDays,
     OneWeek,
-    TwoWeeks,
     OneMonth,
-    ThreeMonths,
-    SixMonths,
-    OneYear,
 }
 
 impl TimeFrame {
     pub fn as_str(&self) -> &'static str {
         match self {
             TimeFrame::OneMinute => "1m",
-            TimeFrame::TwoMinutes => "2m",
+            TimeFrame::ThreeMinutes => "3m",
             TimeFrame::FiveMinutes => "5m",
             TimeFrame::FifteenMinutes => "15m",
+            TimeFrame::ThirtyMinutes => "30m",
             TimeFrame::OneHour => "1h",
+            TimeFrame::FourHours => "4h",
             TimeFrame::OneDay => "1d",
-            TimeFrame::TwoDays => "2d",
-            TimeFrame::FiveDays => "5d",
             TimeFrame::OneWeek => "1w",
-            TimeFrame::TwoWeeks => "2w",
             TimeFrame::OneMonth => "1M",
-            TimeFrame::ThreeMonths => "3M",
-            TimeFrame::SixMonths => "6M",
-            TimeFrame::OneYear => "1Y",
         }
     }
 }

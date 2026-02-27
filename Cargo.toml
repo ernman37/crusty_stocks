@@ -9,3 +9,5 @@ categories = ['data-structures']
 readme = 'README.md'
 
 [dependencies]
+
+[dev-dependencies]
