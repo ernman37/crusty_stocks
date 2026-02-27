@@ -9,7 +9,7 @@ pub struct Candle {
     pub close: f64,
     pub high: f64,
     pub low: f64,
-    pub volume: f64,
+    pub volume: u32,
     pub timeframe: TimeFrame,
 }
 
@@ -20,16 +20,11 @@ impl Candle {
         close: f64,
         high: f64,
         low: f64,
-        volume: f64,
+        volume: u32,
         timeframe: TimeFrame,
     ) -> Result<Self, Error> {
         if high < low {
             return Err(Error::InvalidCandle("high must be >= low".to_string()));
-        }
-        if volume < 0.0 {
-            return Err(Error::InvalidCandle(
-                "volume must be non-negative".to_string(),
-            ));
         }
         Ok(Self {
             ticker,
@@ -42,22 +37,18 @@ impl Candle {
         })
     }
 
-    /// Returns `true` if the candle closed higher than it opened.
     pub fn is_bullish(&self) -> bool {
         self.close > self.open
     }
 
-    /// Returns `true` if the candle closed lower than it opened.
     pub fn is_bearish(&self) -> bool {
         self.close < self.open
     }
 
-    /// The full range of the candle (high - low).
     pub fn range(&self) -> f64 {
         self.high - self.low
     }
 
-    /// The body size of the candle (absolute difference between open and close).
     pub fn body(&self) -> f64 {
         (self.close - self.open).abs()
     }
