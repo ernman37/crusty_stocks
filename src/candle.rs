@@ -57,6 +57,68 @@ impl Candle {
     pub fn body(&self) -> f64 {
         (self.close - self.open).abs()
     }
+
+    #[cfg(feature = "csv")]
+    pub fn to_csv(&self) -> String {
+        format!(
+            "{},{},{},{},{},{},{},{}",
+            self.ticker,
+            self.open,
+            self.high,
+            self.low,
+            self.close,
+            self.volume,
+            self.timestamp,
+            self.timeframe.as_str()
+        )
+    }
+
+    #[cfg(feature = "csv")]
+    pub fn from_csv(csv: &str) -> Result<Self, Error> {
+        let mut parts = csv.split(',');
+        if parts.clone().count() != 8 {
+            return Err(Error::InvalidCandle("Invalid CSV format".to_string()));
+        }
+
+        let ticker = parts.next().unwrap().to_string();
+        let open = parts
+            .next()
+            .unwrap()
+            .parse()
+            .map_err(|_| Error::InvalidCandle("Invalid open price".to_string()))?;
+        let high = parts
+            .next()
+            .unwrap()
+            .parse()
+            .map_err(|_| Error::InvalidCandle("Invalid high price".to_string()))?;
+        let low = parts
+            .next()
+            .unwrap()
+            .parse()
+            .map_err(|_| Error::InvalidCandle("Invalid low price".to_string()))?;
+        let close = parts
+            .next()
+            .unwrap()
+            .parse()
+            .map_err(|_| Error::InvalidCandle("Invalid close price".to_string()))?;
+        let volume = parts
+            .next()
+            .unwrap()
+            .parse()
+            .map_err(|_| Error::InvalidCandle("Invalid volume".to_string()))?;
+        let timestamp = parts
+            .next()
+            .unwrap()
+            .parse()
+            .map_err(|_| Error::InvalidCandle("Invalid timestamp".to_string()))?;
+        let timeframe = parts
+            .next()
+            .unwrap()
+            .parse()
+            .map_err(|_| Error::InvalidCandle("Invalid timeframe".to_string()))?;
+
+        Candle::new(ticker, open, close, high, low, volume, timestamp, timeframe)
+    }
 }
 
 impl fmt::Display for Candle {
