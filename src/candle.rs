@@ -10,10 +10,12 @@ pub struct Candle {
     pub high: f64,
     pub low: f64,
     pub volume: u32,
+    pub timestamp: u32,
     pub timeframe: TimeFrame,
 }
 
 impl Candle {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         ticker: String,
         open: f64,
@@ -21,6 +23,7 @@ impl Candle {
         high: f64,
         low: f64,
         volume: u32,
+        timestamp: u32,
         timeframe: TimeFrame,
     ) -> Result<Self, Error> {
         if high < low {
@@ -33,6 +36,7 @@ impl Candle {
             high,
             low,
             volume,
+            timestamp,
             timeframe,
         })
     }
