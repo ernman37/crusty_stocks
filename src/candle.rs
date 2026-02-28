@@ -111,8 +111,11 @@ impl Candle {
             .unwrap()
             .parse()
             .map_err(|_| Error::InvalidCandle("Invalid timestamp".to_string()))?;
-        let timeframe = TimeFrame::from_str(parts.next().unwrap())
-            .ok_or_else(|| Error::InvalidCandle("Invalid timeframe".to_string()))?;
+        let timeframe = parts
+            .next()
+            .unwrap()
+            .parse()
+            .map_err(|_| Error::InvalidCandle("Invalid timeframe".to_string()))?;
 
         Candle::new(ticker, open, close, high, low, volume, timestamp, timeframe)
     }

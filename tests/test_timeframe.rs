@@ -72,17 +72,17 @@ fn timeframe_one_month_as_str_and_display() {
 
 #[test]
 fn timeframe_from_str() {
-    assert_eq!(TimeFrame::from_str("1m"), Some(TimeFrame::OneMinute));
-    assert_eq!(TimeFrame::from_str("3m"), Some(TimeFrame::ThreeMinutes));
-    assert_eq!(TimeFrame::from_str("5m"), Some(TimeFrame::FiveMinutes));
-    assert_eq!(TimeFrame::from_str("15m"), Some(TimeFrame::FifteenMinutes));
-    assert_eq!(TimeFrame::from_str("30m"), Some(TimeFrame::ThirtyMinutes));
-    assert_eq!(TimeFrame::from_str("1h"), Some(TimeFrame::OneHour));
-    assert_eq!(TimeFrame::from_str("4h"), Some(TimeFrame::FourHours));
-    assert_eq!(TimeFrame::from_str("1d"), Some(TimeFrame::OneDay));
-    assert_eq!(TimeFrame::from_str("1w"), Some(TimeFrame::OneWeek));
-    assert_eq!(TimeFrame::from_str("1M"), Some(TimeFrame::OneMonth));
-    assert_eq!(TimeFrame::from_str("invalid"), None);
+    assert_eq!("1m".parse(), Ok(TimeFrame::OneMinute));
+    assert_eq!("3m".parse(), Ok(TimeFrame::ThreeMinutes));
+    assert_eq!("5m".parse(), Ok(TimeFrame::FiveMinutes));
+    assert_eq!("15m".parse(), Ok(TimeFrame::FifteenMinutes));
+    assert_eq!("30m".parse(), Ok(TimeFrame::ThirtyMinutes));
+    assert_eq!("1h".parse(), Ok(TimeFrame::OneHour));
+    assert_eq!("4h".parse(), Ok(TimeFrame::FourHours));
+    assert_eq!("1d".parse(), Ok(TimeFrame::OneDay));
+    assert_eq!("1w".parse(), Ok(TimeFrame::OneWeek));
+    assert_eq!("1M".parse(), Ok(TimeFrame::OneMonth));
+    assert!("invalid".parse::<TimeFrame>().is_err());
 }
 
 #[cfg(feature = "serde")]

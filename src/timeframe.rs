@@ -1,4 +1,5 @@
 use std::fmt;
+use std::str::FromStr;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum TimeFrame {
@@ -29,27 +30,33 @@ impl TimeFrame {
             TimeFrame::OneMonth => "1M",
         }
     }
-
-    pub fn from_str(s: &str) -> Option<Self> {
-        match s {
-            "1m" => Some(TimeFrame::OneMinute),
-            "3m" => Some(TimeFrame::ThreeMinutes),
-            "5m" => Some(TimeFrame::FiveMinutes),
-            "15m" => Some(TimeFrame::FifteenMinutes),
-            "30m" => Some(TimeFrame::ThirtyMinutes),
-            "1h" => Some(TimeFrame::OneHour),
-            "4h" => Some(TimeFrame::FourHours),
-            "1d" => Some(TimeFrame::OneDay),
-            "1w" => Some(TimeFrame::OneWeek),
-            "1M" => Some(TimeFrame::OneMonth),
-            _ => None,
-        }
-    }
 }
 
 impl fmt::Display for TimeFrame {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.as_str())
+    }
+}
+
+impl FromStr for TimeFrame {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1m" => Ok(TimeFrame::OneMinute),
+            "3m" => Ok(TimeFrame::ThreeMinutes),
+            "5m" => Ok(TimeFrame::FiveMinutes),
+            "15m" => Ok(TimeFrame::FifteenMinutes),
+            "30m" => Ok(TimeFrame::ThirtyMinutes),
+            "1h" => Ok(TimeFrame::OneHour),
+            "4h" => Ok(TimeFrame::FourHours),
+            "1d" => Ok(TimeFrame::OneDay),
+            "1w" => Ok(TimeFrame::OneWeek),
+            "1M" => Ok(TimeFrame::OneMonth),
+            _ => Err(format!(
+                "unknown timeframe `{s}`, expected one of: 1m, 3m, 5m, 15m, 30m, 1h, 4h, 1d, 1w, 1M"
+            )),
+        }
     }
 }
 
@@ -64,11 +71,6 @@ impl serde::Serialize for TimeFrame {
 impl<'de> serde::Deserialize<'de> for TimeFrame {
     fn deserialize<D: serde::Deserializer<'de>>(d: D) -> Result<Self, D::Error> {
         let s = String::deserialize(d)?;
-        TimeFrame::from_str(&s).ok_or_else(|| {
-            serde::de::Error::unknown_variant(
-                &s,
-                &["1m", "3m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M"],
-            )
-        })
+        s.parse().map_err(serde::de::Error::custom)
     }
 }
