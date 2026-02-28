@@ -65,9 +65,11 @@ impl serde::Serialize for TimeFrame {
 impl<'de> serde::Deserialize<'de> for TimeFrame {
     fn deserialize<D: serde::Deserializer<'de>>(d: D) -> Result<Self, D::Error> {
         let s = String::deserialize(d)?;
-        TimeFrame::from_str(&s)
-            .ok_or_else(|| serde::de::Error::unknown_variant(&s, &[
-                "1m", "3m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M",
-            ]))
+        TimeFrame::from_str(&s).ok_or_else(|| {
+            serde::de::Error::unknown_variant(
+                &s,
+                &["1m", "3m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M"],
+            )
+        })
     }
 }
