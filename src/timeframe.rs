@@ -30,7 +30,6 @@ impl TimeFrame {
         }
     }
 
-    #[cfg(feature = "serde")]
     pub fn from_str(s: &str) -> Option<Self> {
         match s {
             "1m" => Some(TimeFrame::OneMinute),

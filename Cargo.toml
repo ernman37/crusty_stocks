@@ -18,6 +18,7 @@ default = []
 serde  = ["dep:serde", "dep:serde_derive"]
 json   = ["serde"]
 yaml   = ["serde"]
+csv = []
 
 [dev-dependencies]
 serde_json = "1.0"

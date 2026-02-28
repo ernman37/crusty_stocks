@@ -70,7 +70,6 @@ fn timeframe_one_month_as_str_and_display() {
     assert_eq!(format!("{}", tf), "1M");
 }
 
-#[cfg(feature = "serde")]
 #[test]
 fn timeframe_from_str() {
     assert_eq!(TimeFrame::from_str("1m"), Some(TimeFrame::OneMinute));
