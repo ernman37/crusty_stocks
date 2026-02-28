@@ -2,6 +2,7 @@ use std::fmt;
 
 use crate::{Error, TimeFrame};
 
+#[cfg_attr(feature = "json", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct Candle {
     pub ticker: String,

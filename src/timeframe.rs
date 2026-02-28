@@ -1,5 +1,6 @@
 use std::fmt;
 
+#[cfg_attr(feature = "json", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub enum TimeFrame {
     OneMinute,
