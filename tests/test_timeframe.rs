@@ -70,7 +70,7 @@ fn timeframe_one_month_as_str_and_display() {
     assert_eq!(format!("{}", tf), "1M");
 }
 
-#[cfg(feature = "json")]
+#[cfg(feature = "serde")]
 #[test]
 fn timeframe_from_str() {
     assert_eq!(TimeFrame::from_str("1m"), Some(TimeFrame::OneMinute));
@@ -86,7 +86,7 @@ fn timeframe_from_str() {
     assert_eq!(TimeFrame::from_str("invalid"), None);
 }
 
-#[cfg(feature = "json")]
+#[cfg(feature = "serde")]
 #[test]
 fn timeframe_json_serialization() {
     let tf = TimeFrame::OneMinute;
@@ -94,7 +94,7 @@ fn timeframe_json_serialization() {
     assert!(json.contains("1m"));
 }
 
-#[cfg(feature = "json")]
+#[cfg(feature = "serde")]
 #[test]
 fn timeframe_json_deserialization() {
     let json = r#""1m""#;
@@ -102,7 +102,7 @@ fn timeframe_json_deserialization() {
     assert_eq!(tf, TimeFrame::OneMinute);
 }
 
-#[cfg(feature = "json")]
+#[cfg(feature = "serde")]
 #[test]
 fn timeframe_json_deserialization_invalid_returns_err() {
     let json = r#""invalid""#;
@@ -110,10 +110,56 @@ fn timeframe_json_deserialization_invalid_returns_err() {
     assert!(result.is_err());
 }
 
-#[cfg(feature = "json")]
+#[cfg(feature = "serde")]
 #[test]
 fn timeframe_json_deserialization_wrong_type_returns_err() {
     let json = r#"123"#;
     let result: Result<TimeFrame, _> = serde_json::from_str(json);
     assert!(result.is_err());
+}
+
+#[cfg(feature = "yaml")]
+#[test]
+fn timeframe_yaml_serialization() {
+    let tf = TimeFrame::OneDay;
+    let yaml = serde_yaml::to_string(&tf).unwrap();
+    assert!(yaml.contains("1d"));
+}
+
+#[cfg(feature = "yaml")]
+#[test]
+fn timeframe_yaml_deserialization() {
+    let yaml = r#"1d"#;
+    let tf: TimeFrame = serde_yaml::from_str(yaml).unwrap();
+    assert_eq!(tf, TimeFrame::OneDay);
+}
+
+#[cfg(feature = "yaml")]
+#[test]
+fn timeframe_yaml_deserialization_invalid_returns_err() {
+    let yaml = r#"invalid"#;
+    let result: Result<TimeFrame, _> = serde_yaml::from_str(yaml);
+    assert!(result.is_err());
+}
+
+#[cfg(feature = "yaml")]
+#[test]
+fn timeframe_yaml_roundtrip() {
+    let variants = [
+        TimeFrame::OneMinute,
+        TimeFrame::ThreeMinutes,
+        TimeFrame::FiveMinutes,
+        TimeFrame::FifteenMinutes,
+        TimeFrame::ThirtyMinutes,
+        TimeFrame::OneHour,
+        TimeFrame::FourHours,
+        TimeFrame::OneDay,
+        TimeFrame::OneWeek,
+        TimeFrame::OneMonth,
+    ];
+    for tf in &variants {
+        let yaml = serde_yaml::to_string(tf).unwrap();
+        let roundtripped: TimeFrame = serde_yaml::from_str(&yaml).unwrap();
+        assert_eq!(tf, &roundtripped);
+    }
 }

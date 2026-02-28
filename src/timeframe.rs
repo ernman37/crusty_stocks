@@ -30,7 +30,7 @@ impl TimeFrame {
         }
     }
 
-    #[cfg(feature = "json")]
+    #[cfg(feature = "serde")]
     pub fn from_str(s: &str) -> Option<Self> {
         match s {
             "1m" => Some(TimeFrame::OneMinute),
@@ -54,14 +54,14 @@ impl fmt::Display for TimeFrame {
     }
 }
 
-#[cfg(feature = "json")]
+#[cfg(feature = "serde")]
 impl serde::Serialize for TimeFrame {
     fn serialize<S: serde::Serializer>(&self, s: S) -> Result<S::Ok, S::Error> {
         s.serialize_str(self.as_str())
     }
 }
 
-#[cfg(feature = "json")]
+#[cfg(feature = "serde")]
 impl<'de> serde::Deserialize<'de> for TimeFrame {
     fn deserialize<D: serde::Deserializer<'de>>(d: D) -> Result<Self, D::Error> {
         let s = String::deserialize(d)?;
