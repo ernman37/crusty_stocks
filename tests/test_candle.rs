@@ -9,6 +9,7 @@ fn candle_new_and_helpers() {
         156.0,
         149.0,
         1_000_000,
+        1625097600,
         TimeFrame::OneDay,
     )
     .expect("valid candle");
@@ -28,6 +29,7 @@ fn candle_new_invalid_high_low() {
         5.0,
         6.0,
         100,
+        1625097600,
         TimeFrame::OneDay,
     );
     assert!(matches!(res, Err(Error::InvalidCandle(_))));
@@ -42,6 +44,7 @@ fn candle_display() {
         20200.0,
         19950.0,
         12345,
+        1625097600,
         TimeFrame::OneMinute,
     )
     .unwrap();

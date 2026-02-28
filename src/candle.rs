@@ -15,6 +15,7 @@ pub struct Candle {
 }
 
 impl Candle {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         ticker: String,
         open: f64,
