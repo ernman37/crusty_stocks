@@ -31,7 +31,7 @@ impl TimeFrame {
     }
 
     #[cfg(feature = "json")]
-    fn from_str(s: &str) -> Option<Self> {
+    pub fn from_str(s: &str) -> Option<Self> {
         match s {
             "1m" => Some(TimeFrame::OneMinute),
             "3m" => Some(TimeFrame::ThreeMinutes),

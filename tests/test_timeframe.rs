@@ -69,3 +69,53 @@ fn timeframe_one_month_as_str_and_display() {
     assert_eq!(tf.as_str(), "1M");
     assert_eq!(format!("{}", tf), "1M");
 }
+
+#[cfg(feature = "json")]
+#[test]
+fn timeframe_from_str() {
+    assert_eq!(TimeFrame::from_str("1m"), Some(TimeFrame::OneMinute));
+    assert_eq!(TimeFrame::from_str("3m"), Some(TimeFrame::ThreeMinutes));
+    assert_eq!(TimeFrame::from_str("5m"), Some(TimeFrame::FiveMinutes));
+    assert_eq!(TimeFrame::from_str("15m"), Some(TimeFrame::FifteenMinutes));
+    assert_eq!(TimeFrame::from_str("30m"), Some(TimeFrame::ThirtyMinutes));
+    assert_eq!(TimeFrame::from_str("1h"), Some(TimeFrame::OneHour));
+    assert_eq!(TimeFrame::from_str("4h"), Some(TimeFrame::FourHours));
+    assert_eq!(TimeFrame::from_str("1d"), Some(TimeFrame::OneDay));
+    assert_eq!(TimeFrame::from_str("1w"), Some(TimeFrame::OneWeek));
+    assert_eq!(TimeFrame::from_str("1M"), Some(TimeFrame::OneMonth));
+    assert_eq!(TimeFrame::from_str("invalid"), None);
+}
+
+#[cfg(feature = "json")]
+#[test]
+fn timeframe_json_serialization() {
+    let tf = TimeFrame::OneMinute;
+    let json = serde_json::to_string(&tf).unwrap();
+    assert!(json.contains("1m"));
+}
+
+#[cfg(feature = "json")]
+#[test]
+fn timeframe_json_deserialization() {
+    let json = r#""1m""#;
+    let tf: TimeFrame = serde_json::from_str(json).unwrap();
+    assert_eq!(tf, TimeFrame::OneMinute);
+}
+
+#[cfg(feature = "json")]
+#[test]
+fn timeframe_json_deserialization_invalid_returns_err() {
+    let json = r#""invalid""#;
+    let result: Result<TimeFrame, _> = serde_json::from_str(json);
+    assert!(result.is_err());
+}
+
+#[cfg(feature = "json")]
+#[test]
+fn timeframe_json_deserialization_wrong_type_returns_err() {
+    // Passes a JSON number instead of a string — exercises the
+    // `String::deserialize(d)?` error branch (the `^0` coverage gap).
+    let json = r#"123"#;
+    let result: Result<TimeFrame, _> = serde_json::from_str(json);
+    assert!(result.is_err());
+}
