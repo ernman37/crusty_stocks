@@ -113,8 +113,6 @@ fn timeframe_json_deserialization_invalid_returns_err() {
 #[cfg(feature = "json")]
 #[test]
 fn timeframe_json_deserialization_wrong_type_returns_err() {
-    // Passes a JSON number instead of a string — exercises the
-    // `String::deserialize(d)?` error branch (the `^0` coverage gap).
     let json = r#"123"#;
     let result: Result<TimeFrame, _> = serde_json::from_str(json);
     assert!(result.is_err());
