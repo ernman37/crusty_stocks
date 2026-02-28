@@ -10,4 +10,12 @@ readme = 'README.md'
 
 [dependencies]
 
+serde = { version = "1.0", features = ["derive"], optional = true }
+serde_derive = { version = "1.0", optional = true }
+
+[features]
+default = []
+json = ["serde", "serde_derive"]
+
 [dev-dependencies]
+serde_json = "1.0"
